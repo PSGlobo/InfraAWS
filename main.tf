@@ -17,3 +17,28 @@ provider "aws" {
   profile = "default"
   region = "sa-east-1"
 }
+
+resource "aws_s3_bucket" "state" {
+  bucket = "terraformstateinfrarepository"
+  acl = "private"
+  force_destroy = false
+  tags = {
+    "terraform" = ""
+  }
+}
+
+resource "aws_iam_user" "bia" {
+  name = "BeatrizTantow"
+}
+
+resource "aws_iam_user" "luan" {
+  name = "LuanBraga"
+}
+
+resource "aws_iam_user" "camille" {
+  name = "CamilleTantow"
+}
+
+resource "aws_iam_user" "petrolifero" {
+  name = "petrolifero"
+}
