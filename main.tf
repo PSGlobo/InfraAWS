@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "terraformstateinfrarepository"
+    bucket = "terraform-state-infra-repository"
     key    = "infraRepository/state"
     region = "sa-east-1"
-    dynamodb_table = "terraformstatelocking"
+    dynamodb_table = "terraform-state-locking"
   }
 }
 
