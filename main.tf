@@ -18,8 +18,9 @@ provider "aws" {
   region = "sa-east-1"
 }
 
-resource "aws_s3_bucket" "state" {
-  bucket = "terraformstateinfrarepository"
+
+resource "aws_s3_bucket" "newState" {
+  bucket = "terraform-state-infra-repository"
   acl = "private"
   force_destroy = false
   tags = {
@@ -27,16 +28,30 @@ resource "aws_s3_bucket" "state" {
   }
 }
 
+resource "aws_dynamodb_table" "lockState" {
+  name = "terraform-state-locking"
+  hash_key       = "LockID"
+  tags = {
+    "terraform" = ""
+  }
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+  write_capacity = 5
+  read_capacity = 5
+}
+
 resource "aws_iam_user" "bia" {
   name = "BeatrizTantow"
 }
 
-resource "aws_iam_user" "luan" {
-  name = "LuanBraga"
-}
-
 resource "aws_iam_user" "camille" {
   name = "CamilleTantow"
+}
+
+resource "aws_iam_user" "canellas" {
+  name = "EduardoCanellas"
 }
 
 resource "aws_iam_user" "petrolifero" {
