@@ -46,10 +46,6 @@ resource "aws_iam_user" "bia" {
   name = "BeatrizTantow"
 }
 
-resource "aws_iam_user" "camille" {
-  name = "CamilleTantow"
-}
-
 resource "aws_iam_user" "canellas" {
   name = "EduardoCanellas"
 }
