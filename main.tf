@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 
-resource "aws_s3_bucket" "newState" {
+resource "aws_s3_bucket" "state" {
   bucket = "terraform-state-infra-repository"
   acl = "private"
   force_destroy = false
