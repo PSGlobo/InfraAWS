@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: install Terraform
-      run: curl https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip && unzip terraform_0.15.5_linux_amd64.zip && export PATH=$PATH:$(pwd)
+      run: wget https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip && unzip terraform_0.15.5_linux_amd64.zip && export PATH=$PATH:$(pwd)
 
     - name: Terraform Init
       run: terraform init
