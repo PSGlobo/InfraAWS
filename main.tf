@@ -6,9 +6,9 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "terraform-state-infra-repository"
-    key    = "infraRepository/state"
-    region = "sa-east-1"
+    bucket         = "terraform-state-infra-repository"
+    key            = "infraRepository/state"
+    region         = "sa-east-1"
     dynamodb_table = "terraform-state-locking"
   }
 }
@@ -19,8 +19,8 @@ provider "aws" {
 
 
 resource "aws_s3_bucket" "state" {
-  bucket = "terraform-state-infra-repository"
-  acl = "private"
+  bucket        = "terraform-state-infra-repository"
+  acl           = "private"
   force_destroy = false
   tags = {
     "terraform" = ""
@@ -28,8 +28,8 @@ resource "aws_s3_bucket" "state" {
 }
 
 resource "aws_dynamodb_table" "lockState" {
-  name = "terraform-state-locking"
-  hash_key       = "LockID"
+  name     = "terraform-state-locking"
+  hash_key = "LockID"
   tags = {
     "terraform" = ""
   }
@@ -38,7 +38,7 @@ resource "aws_dynamodb_table" "lockState" {
     type = "S"
   }
   write_capacity = 5
-  read_capacity = 5
+  read_capacity  = 5
 }
 
 resource "aws_iam_user" "bia" {
