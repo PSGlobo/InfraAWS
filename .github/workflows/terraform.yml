@@ -20,11 +20,13 @@ jobs:
         shell: bash
 
     steps:
+    - name: install terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.5
+
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: install Terraform
-      run: wget https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip && unzip terraform_0.15.5_linux_amd64.zip && export PATH=$PATH:$(pwd)
 
     - name: Terraform Init
       run: terraform init
