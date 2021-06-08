@@ -51,7 +51,9 @@ jobs:
           #### Terraform Initialization \`${{ steps.init.outcome }}\`
           #### Terraform Plan \`${{ steps.plan.outcome }}\`
           <details><summary>Show Plan</summary>
+          \`\`\`\n
           ${process.env.PLAN}
+          \`\`\`
           </details>
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
             
