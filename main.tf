@@ -52,3 +52,13 @@ resource "aws_iam_user" "canellas" {
 resource "aws_iam_user" "petrolifero" {
   name = "petrolifero"
 }
+
+resource "aws_vpc" "jenkins" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+
+  tags = {
+    "terraform" = ""
+    "component" = "CI"
+  }
+}
