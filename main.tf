@@ -75,3 +75,6 @@ resource "aws_subnet" "buildersJenkins" {
   cidr_block        = "10.0.2.0/24"
 }
 
+resource "aws_iam_user" "HR" {
+  name = "HR"
+}
