@@ -56,9 +56,11 @@ resource "aws_key_pair" "PKIKeyPair" {
 }
 
 resource "aws_instance" "microsoftPKIRoot" {
-  ami           = "ami-03ea5c5403c5bcc24"
-  instance_type = "t2.medium"
-  subnet_id     = aws_subnet.PKIRoot.id
+  ami               = "ami-03ea5c5403c5bcc24"
+  instance_type     = "t2.medium"
+  subnet_id         = aws_subnet.PKIRoot.id
+  key_name          = aws_key_pair.PKIKeyPair.key_name
+  get_password_data = true
   tags = {
     "terraform" = "yes"
   }
@@ -66,5 +68,4 @@ resource "aws_instance" "microsoftPKIRoot" {
 
 resource "aws_s3_bucket" "keyPair" {
   bucket = "keyPairReceiver"
-
 }
