@@ -47,8 +47,24 @@ resource "aws_directory_service_directory" "ldap" {
   }
 }
 
+resource "aws_key_pair" "PKIKeyPair" {
+  key_name   = "MicrosoftPKIKeyPair"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCW2Ag0ts+mwcni0K/HoGSj7dnNRoynDWMD+Lq6rT6XQCPK4LrFZXI02GzCkSTd/h3PWSLvk8EjSVIH3P8jy5ucdq12p8Nqf9z5l3y+26F91FUYd1X2ZAageEBqEnnpGR+EEqd3Rff8/aer62Hg310hsxRsKzctXTKoAsE8qcIBCrJ9QE21Rg+LuSNn/3i/7HkUNqvhslAzCd73aO5mR4pYRY0oBzTuzAW1j3w1rfvmtenBr9AyvVSWTdfHJvmKVHJ6SaDYQBr2q7TLmo//T/jkAUU9UzDwoS3upzHGeM85cCH6AIFtDnsyUiejYVqMaCZM4Hcvkj9jCASBkhgwfECn"
+  tags = {
+    "terraform" = "no"
+  }
+}
+
 resource "aws_instance" "microsoftPKIRoot" {
   ami           = "ami-03ea5c5403c5bcc24"
   instance_type = "t2.medium"
   subnet_id     = aws_subnet.PKIRoot.id
+  tags = {
+    "terraform" = "yes"
+  }
+}
+
+resource "aws_s3_bucket" "keyPair" {
+  bucket = "keyPairReceiver"
+  
 }
