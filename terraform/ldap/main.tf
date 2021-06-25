@@ -66,5 +66,5 @@ resource "aws_instance" "microsoftPKIRoot" {
 
 resource "aws_s3_bucket" "keyPair" {
   bucket = "keyPairReceiver"
-  
+
 }
