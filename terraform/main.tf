@@ -41,14 +41,6 @@ resource "aws_dynamodb_table" "lockState" {
   read_capacity  = 5
 }
 
-resource "aws_iam_user" "bia" {
-  name = "BeatrizTantow"
-}
-
-resource "aws_iam_user" "canellas" {
-  name = "EduardoCanellas"
-}
-
 resource "aws_iam_user" "petrolifero" {
   name = "petrolifero"
 }

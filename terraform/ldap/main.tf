@@ -25,10 +25,11 @@ resource "aws_subnet" "ldap2" {
 }
 
 resource "aws_directory_service_directory" "ldap" {
-  name     = "corp.bbbfake.com"
-  password = "SuperSecretPassw0rd"
-  edition  = "Standard"
-  type     = "MicrosoftAD"
+  name        = "corp.bbbfake.com"
+  password    = "SuperSecretPassw0rd"
+  edition     = "Standard"
+  type        = "MicrosoftAD"
+  description = "Developers enable to make login on jenkins"
 
   vpc_settings {
     vpc_id     = aws_vpc.ldap.id
@@ -43,9 +44,32 @@ resource "aws_directory_service_directory" "ldap" {
 
 
 resource "aws_subnet" "PKIRoot" {
-  vpc_id            = aws_vpc.ldap.id
-  availability_zone = "sa-east-1c"
-  cidr_block        = "10.1.3.0/24"
+  vpc_id                  = aws_vpc.ldap.id
+  availability_zone       = "sa-east-1c"
+  cidr_block              = "10.1.3.0/24"
+  map_public_ip_on_launch = true
+}
+
+resource "aws_network_acl" "ldapPublicACL" {
+  vpc_id     = aws_vpc.ldap.id
+  subnet_ids = [aws_subnet.PKIRoot.id]
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_subnet.PKIRoot.cidr_block
+    from_port  = 3389
+    to_port    = 3389
+  }
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_subnet.PKIRoot.cidr_block
+    from_port  = 3389
+    to_port    = 3389
+  }
 }
 
 resource "aws_key_pair" "PKIKeyPair" {
@@ -56,12 +80,25 @@ resource "aws_key_pair" "PKIKeyPair" {
   }
 }
 
-resource "aws_internet_gateway" "accessToVpnLDAP" {
+resource "aws_internet_gateway" "accessToLDAPPKI" {
   vpc_id = aws_vpc.ldap.id
 
   tags = {
     Name = "main"
   }
+}
+
+resource "aws_route_table" "ldapPublicRouteTable" {
+  vpc_id = aws_vpc.ldap.id
+  tags = {
+    terraform = ""
+  }
+}
+
+resource "aws_route" "ldapInternetRoute" {
+  route_table_id         = aws_route_table.ldapPublicRouteTable.id
+  destination_cidr_block = aws_subnet.PKIRoot.cidr_block
+  gateway_id             = aws_internet_gateway.accessToLDAPPKI.id
 }
 
 resource "aws_acm_certificate" "cert" {
